@@ -1,9 +1,30 @@
+'use strict'
 const { shoppingCartService } = require('../services')
+const promiseHandler = require('../error/promiseHandler')
 
 class ShoppingCartController{
 
-    createCart = async (req, res) => await shoppingCartService.createCart(req,res);
+    constructor(){
+        this.err = null;
+        this.data = null;
+    }
 
-    getCart = async (req, res) => await shoppingCartService.getCart(req,res);
+    createCart = async (req, res) =>{ 
+        
+       [this.err,this.data] = await promiseHandler(shoppingCartService.createCart(req.body,req.user._id));
+
+       if(this.err) res.status(404).send("Bad request");
+
+       res.status(200).send(this.data);
+    }
+
+    getCart = async (req, res) =>{
+
+        [this.err,this.data] = await promiseHandler(shoppingCartService.getCart(req.user._id));
+
+        if(this.err) res.status(404).send("Bad request");
+ 
+        res.status(200).send(this.data);
+    }
 }
 module.exports = new ShoppingCartController

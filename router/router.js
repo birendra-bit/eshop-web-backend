@@ -12,10 +12,10 @@ module.exports = (app) => {
     app.get('/', authenticateToken, userController.getUser)
 
     app.post('/category', authenticateToken, categoryController.createCategory)
-    app.get('/category', authenticateToken, categoryController.getCategory)
+    app.get('/category', categoryController.getCategory)
 
     app.post('/product', authenticateToken, productController.createProduct)
-    app.get('/product', authenticateToken, productController.getProduct)
+    app.get('/product', productController.getProduct)
 
     app.post('/shoppingCart',authenticateToken, shoppingCartController.createCart);
     app.get('/shoppingCart',authenticateToken, shoppingCartController.getCart);

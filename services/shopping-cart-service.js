@@ -1,6 +1,8 @@
+'use strict'
 const mongoose = require('mongoose')
 const { shoppingCartModel } = require('../model')
 const shoppingCartSchema = mongoose.Schema(shoppingCartModel)
+const { errorHandler } = require('../error/errorHandler')
 
 class SoppingCartService {
 
@@ -8,44 +10,24 @@ class SoppingCartService {
         this.model = mongoose.model('ShoppingCart', shoppingCartSchema)
     }
 
-    createCart = async (req, res) => {
-        try {
-            let user_id = req.user._id;
+    createCart = async (data,id) => {
 
-            let cart = await this.model.findOne({ user_id })
-
+        data.user_id = id;
+            let cart = await this.model.findOne({"user_id": id });
             if (cart) {
-
-                let item = await this.model.updateOne({ "user_id": user_id, "items.product_id": req.body.items.product_id },
-                    { $inc: { "items.$.quantity": 1 } })
-
-                if (!item.nModified) {
-                    await this.model.updateOne({ "user_id": user_id },
-                        { $push: { items: req.body.items } })
-                }
-                res.status(200).send({ success: true, item });
+                let item = await this.model.updateOne({ "user_id": id, "items.product_id": data.items.product_id },
+                    { $inc: { "items.$.quantity": data.items.change } })
+                    
+                 return !item.nModified ?
+                    await this.model.updateOne({ "user_id": id }, { $push: { items: data.items } }) : item;
             }
-
-            req.body.user_id = user_id;
-
-            await this.model.create(req.body, (err) => {
-
-                if (err) res.status(400).send({ success: false, message: 'Bad Request' });
-
-                res.status(200).send({ success: true, message: 'item added to shopping cart' });
-            })
-        } catch (error) {
-            res.send(404).send({ success: false, message: 'Bad Request' });
-        }
+            else{
+                return await this.model.create(data);
+            }
     }
-    getCart = async (req, res) => {
+    getCart = async (id) => {
 
-        await this.model.find((err, cartData) => {
-
-            if (err) res.status(200).send({ success: true, message: 'Cart is empty' });
-
-            res.status(200).send({ success: true, cartData })
-        })
+        return await this.model.find({user_id:id})
     }
 }
 module.exports = new SoppingCartService

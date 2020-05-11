@@ -11,18 +11,15 @@ class User {
     }
 
     findByCredentials = async (req, res) => {
-        try {
             //get user with email
-            let email = req.body.email;
-            let password = req.body.password;
-            let user = await this.model.findOne({ email }).select('+password');
+            let user = await this.model.findOne({"email": data.email }).select('+password');
             if (!user)
-                res.status(401).send({ success: false, message: 'Invalid login credentials' });
+                return { success: false, message: 'Invalid login credentials'};
 
             //compare password
-            const isPasswordMatch = authenticate.compareHash(password, user.password);
+            const isPasswordMatch = authenticate.compareHash(data.password, user.password);
             if (!isPasswordMatch)
-                res.status(401).send({ success: false, message: 'Invalid login credentials' });
+                return { success: false, message: 'Invalid login credentials' };
 
             user = {
                 "isAdmin": user.isAdmin,
@@ -33,38 +30,25 @@ class User {
             
             let token = authenticate.generateToken(user);
 
-            return res.status(200).send({token});
-        } catch (err) {
-            res.status(404).send({ success: false, message: 'Bad Request' })
-        }
+            return {token};
     }
 
-    signUp = async (req, res) => {
-        try {
-            let user = req.body;
-            let email = user.email
+    signUp = async (data) => {
 
-            if (await this.model.findOne({ email })){
-                res.status(400).send({ success: false, message: 'user already exist' })
+            if (await this.model.findOne({ "email":data.email })){
+                return { success: false, message: 'user already exist' };
             }
             else
             {
-            user.password = authenticate.generateHash(user.password)
+            data.password = authenticate.generateHash(data.password)
 
-            await this.model.create(user, (err)=>{
-
-                if(err) res.status(400).send({ sucess: false, message: 'something went wrong' });
-
-            res.status(200).send({ sucess: true, message: 'you are signed up to eshopping' })
-            });
-        }
-        } catch (err) {
-            // console.log('error ', err)
+            await this.model.create(user);
+            return { sucess: true, message: 'you are signed up to eshopping' };
         }
     }
 
-    login = async (req, res) => {
-        await this.findByCredentials(req, res);
+    login = async (data) => {
+        await this.findByCredentials(data);
     }
 
     getUser = async (req, res) => {

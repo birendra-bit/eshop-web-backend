@@ -8,24 +8,14 @@ class CategoriesService {
         this.model = mongoose.model('Category', categorySchema)
     }
 
-    createCategory = async (req, res) => {
+    createCategory = async (data) => {
 
-        await this.model.create(req.body, (err) => {
-
-            if (err) res.status(400).send({success:false,message:'Bad Request'});
-
-            res.status(200).send({ success: true, message: 'category created.' });
-        })
+        return await this.model.create(data);
     }
 
-    getCategory = async (req, res) => {
+    getCategory = async () => {
 
-        await this.model.find((err, category) => {
-
-            if (err) res.status(400).send({ success: false, message: 'No category found' });
-
-            res.status(200).send({ success: true, category });
-        })
+       return await this.model.find();
     }
 }
 
