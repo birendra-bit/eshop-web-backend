@@ -2,6 +2,7 @@
 const mongoose = require('mongoose')
 const { shoppingCartModel } = require('../model')
 const shoppingCartSchema = mongoose.Schema(shoppingCartModel)
+const { getProductById } = require('./product-service')
 const { errorHandler } = require('../error/errorHandler')
 
 class SoppingCartService {
@@ -25,8 +26,8 @@ class SoppingCartService {
                 return await this.model.create(data);
             }
     }
-    getCart = async (id) => {
 
+    getCart = async (id) => {
         return await this.model.find({user_id:id})
     }
 }

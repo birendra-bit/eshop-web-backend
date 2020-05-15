@@ -13,7 +13,7 @@ class ShoppingCartController{
         
        [this.err,this.data] = await promiseHandler(shoppingCartService.createCart(req.body,req.user._id));
 
-       if(this.err) res.status(404).send("Bad request");
+       if(this.err) res.status(404).send({message:"Bad request"});
 
        res.status(200).send(this.data);
     }
@@ -22,9 +22,10 @@ class ShoppingCartController{
 
         [this.err,this.data] = await promiseHandler(shoppingCartService.getCart(req.user._id));
 
-        if(this.err) res.status(404).send("Bad request");
+        if(this.err) res.status(404).send({message:"Bad request"});
  
         res.status(200).send(this.data);
     }
+
 }
 module.exports = new ShoppingCartController

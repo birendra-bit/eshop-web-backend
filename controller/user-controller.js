@@ -11,19 +11,27 @@ class UserController {
 
         [this.err,this.data] = await promiseHandler( userService.signUp(req.body));
 
-        if(this.err) res.status(404).send('Bad Request');
+        if(this.err) res.status(404).send({message:'Bad Request'});
 
         res.status(200).send(this.data);
     }
 
     login = async (req, res )=>{
-        
-        [this.err,this.data] = await promiseHandler( userService.login(req.body));
 
-        if(this.err) res.status(404).send("Bad Request");
+        [this.err,this.data] = await promiseHandler( userService.findByCredentials(req.body));
+
+        if(this.err) res.status(404).send({message:'Bad Request'});
 
         res.status(200).send(this.data);
     }
-    getUser = async ( req, res )=> userService.getUser(req, res);
+
+    getUser = async ( req, res )=> {
+
+        [this.err,this.data] = await promiseHandler(userService.getUser(req.user))
+        
+        if(this.err) res.status(404).send({message:'Bad Request'});
+
+        res.status(200).send(data);
+    }
 }
 module.exports = new UserController();

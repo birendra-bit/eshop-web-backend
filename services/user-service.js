@@ -1,3 +1,4 @@
+'use strict'
 const mongoose = require('mongoose')
 const {userModel} = require('../model')
 const {authenticate} = require('../auth')
@@ -10,7 +11,7 @@ class User {
         this.model = mongoose.model('User', userSchema);
     }
 
-    findByCredentials = async (req, res) => {
+    findByCredentials = async (data) => {
             //get user with email
             let user = await this.model.findOne({"email": data.email }).select('+password');
             if (!user)
@@ -42,27 +43,19 @@ class User {
             {
             data.password = authenticate.generateHash(data.password)
 
-            await this.model.create(user);
+            await this.model.create(data);
             return { sucess: true, message: 'you are signed up to eshopping' };
         }
     }
 
-    login = async (data) => {
-        await this.findByCredentials(data);
-    }
+    // login = async (data) => {
 
-    getUser = async (req, res) => {
-        try {
-            let _id = req.user._id
+    // await this.findByCredentials(data);
+    // }
 
-            await this.model.findById({ _id }, (err, user) => {
+    getUser = async (user) => {
 
-                if (err) res.status(404).send({ success: false, message: 'Bad Request' });
-
-                res.status(200).send({ success: true, user });
-            })
-
-        } catch (err) { }
+        return await this.model.findById({ "_id" : user._id });
     }
 }
 module.exports = new User();
