@@ -9,7 +9,7 @@ module.exports = (app) => {
     app.post('/signup', userController.signUp)
     app.post('/login', userController.login)
 
-    app.get('/', authenticateToken, userController.getUser)
+    app.get('/', userController.getUser)
 
     app.post('/category', authenticateToken, categoryController.createCategory)
     app.get('/category', categoryController.getCategory)
@@ -22,5 +22,6 @@ module.exports = (app) => {
 
     app.post('/shoppingCart', authenticateToken, shoppingCartController.createCart);
     app.get('/shoppingCart', authenticateToken, shoppingCartController.getCart);
+    app.delete('/shoppingCart/:id', authenticateToken, shoppingCartController.clearCart);
 
 }

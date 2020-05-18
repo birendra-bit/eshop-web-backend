@@ -53,9 +53,9 @@ class User {
     // await this.findByCredentials(data);
     // }
 
-    getUser = async (user) => {
+    getUser = async () => {
 
-        return await this.model.findById({ "_id" : user._id });
+        return await this.model.find();
     }
 }
 module.exports = new User();

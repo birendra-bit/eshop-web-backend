@@ -11,18 +11,18 @@ class CategoryController {
 
         [this.err,this.data] = await promiseHandler(categoryService.createCategory(req, res))
 
-        if(this.err) res.status(404).send({message:'Bad Request'});
+        if(this.err) res.status(404).send({success:false,message:'Bad Request'});
 
-        res.status(200).send({message:'category created.'});
+        res.status(200).send({success:true,message:'category created.'});
     }
 
     getCategory = async (req, res) => {
 
         [this.err,this.data] = await promiseHandler(categoryService.getCategory())
 
-        if(this.err) res.status(400).send({message:'No category found'});
+        if(this.err) res.status(400).send({success:false, message:'No category found'});
 
-        res.status(200).send(this.data);
+        res.status(200).send({success:true, message:'category found',data:this.data});
     }
 
 }
