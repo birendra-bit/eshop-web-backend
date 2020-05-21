@@ -15,6 +15,7 @@ app.options("*", cors())
 const { HOST, PORT } = require('./config');
 const router = require('../router/router');
 
+
 router(app)
 
 app.listen(PORT, HOST, err => {

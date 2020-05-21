@@ -13,7 +13,7 @@ class UserController {
 
         if(this.err) res.status(404).send({success:false,message:'Bad Request'});
 
-        res.status(200).send({success:false,message:'signup sucessfull'});
+        res.status(200).send({success:true,message:'signup sucessfull'});
     }
 
     login = async (req, res )=>{
