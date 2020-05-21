@@ -2,7 +2,7 @@ const {MONGO_HOSTNAME,MONGO_PORT, MONGO_DB} = require('./keys')
 const mongoose = require('mongoose')
 require('dotenv').config()
 
-const url = `mongodb://${process.env.MONGO_HOSTNAME}:${process.env.MONGO_PORT}/${process.env.MONGO_DB}`;
+const url = `mongodb://${process.env.MONGO_HOSTNAME || MONGO_HOSTNAME}:${process.env.MONGO_PORT || MONGO_PORT}/${process.env.MONGO_DB || MONGO_DB}`;
 
 // console.log(process.env.MONGO_PORT);
 mongoose.connect(url,{useNewUrlParser: true, useCreateIndex: true,useUnifiedTopology: true})
