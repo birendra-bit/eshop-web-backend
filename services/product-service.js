@@ -2,7 +2,6 @@ const mongoose = require('mongoose')
 const { productModel } = require('../model')
 const productSchema = mongoose.Schema(productModel)
 
-
 class ProductService {
 
     constructor() {

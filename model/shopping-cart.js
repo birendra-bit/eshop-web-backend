@@ -14,8 +14,12 @@ module.exports = {
                 default:1
             },
             product_id:{
-                type:String,
+                type:ObjectId,
                 required :true
+            },
+            placedDate:{
+                type:Date,
+                default:Date.now()
             }
         }
     ]

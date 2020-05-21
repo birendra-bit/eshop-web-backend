@@ -13,7 +13,7 @@ class ProductController {
 
         if(this.err) res.status(404).send({success:false ,message:'Bad Request'});
 
-        res.status(200).send({success:true, message:'Product created'});
+        res.status(200).send({success:true, message:'Product added'});
     }
 
     getProduct = async (req, res) =>{ 

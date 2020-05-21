@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 const { SECRET } = require('../db/index').keys
 const bcrypt = require('bcryptjs')
+require('dotenv').config()
 
 class Authenticate {
 
@@ -25,7 +26,7 @@ class Authenticate {
             res.status(401).send({ auth: false, message: 'No token provide.' })
         }
 
-        jwt.verify(token, SECRET, (err, user) => {
+        jwt.verify(token, process.env.SECRET || SECRET, (err, user) => {
             if (err)
                 res.status(500).send({ auth: false, messgae: 'Failed to authenticate token.' });
             else {
