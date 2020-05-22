@@ -9,13 +9,19 @@ else{
     url = `mongodb+srv://${USERNAME}:${PASSWORD}@cluster0-qurbt.mongodb.net/${MONGO_DB}?retryWrites=true&w=majority`;
 }
 
-mongoose.connect(url,{useNewUrlParser: true, useCreateIndex: true,useUnifiedTopology: true})
-
-mongoose.connection.once('open',()=>{
+mongoose.connect(url,{useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
+.then(() =>{
     console.log('Mongoose Connection is Successful')
-}).on('error',(error)=>{
-    console.log('Connection erorr : ',error)
 })
+.catch(err=>{
+    console.log(err);
+})
+
+// mongoose.connection.once('open',()=>{
+//     console.log('Mongoose Connection is Successful')
+// }).on('error',(error)=>{
+//     console.log('Connection erorr : ',error)
+// })
 
 module.exports = {
     mongoose
