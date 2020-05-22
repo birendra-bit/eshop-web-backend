@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken')
 const { SECRET } = require('../config/config')
 const bcrypt = require('bcryptjs')
+require('dotenv').config()
 
 
 class Authenticate {
