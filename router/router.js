@@ -11,7 +11,7 @@ module.exports = (app) => {
 
     app.get('/', userController.getUser)
 
-    app.post('/category',  categoryController.createCategory)
+    app.post('/category', authenticateToken, categoryController.createCategory)
     app.get('/category', categoryController.getCategory)
 
     app.post('/product', authenticateToken, productController.createProduct)
