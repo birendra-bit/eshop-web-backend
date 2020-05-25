@@ -14,7 +14,7 @@ module.exports = (app) => {
     app.post('/category', authenticateToken, categoryController.createCategory)
     app.get('/category', categoryController.getCategory)
 
-    app.post('/product', authenticateToken, productController.createProduct)
+    app.post('/product',  productController.createProduct)
     app.get('/product', productController.getProduct)
     app.get('/product/:id', authenticateToken, productController.getProductById)
     app.patch('/product/:id', authenticateToken, productController.updateProduct)
