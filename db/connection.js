@@ -1,6 +1,6 @@
 const {MONGO_HOSTNAME,MONGO_PORT, MONGO_DB, USERNAME, PASSWORD} = require('../config/config')
 const mongoose = require('mongoose')
-require('dotenv').config()
+// require('dotenv').config()
 
 
 var url = ''
