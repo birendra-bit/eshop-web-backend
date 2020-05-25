@@ -9,7 +9,7 @@ class CategoryController {
 
     createCategory = async (req, res) =>{ 
 
-        [this.err,this.data] = await promiseHandler(categoryService.createCategory(req, res))
+        [this.err,this.data] = await promiseHandler(categoryService.createCategory(req.body))
 
         if(this.err) res.status(404).send({success:false,message:'Bad Request'});
 
